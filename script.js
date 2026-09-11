@@ -10,8 +10,9 @@ let total=0;
 
 // add event listener to the clear button
 clearButton.addEventListener("click", function () {
-    totalCalories.textContent = "clear";
+    totalCalories.textContent = "total";
     total = 0;
+    foodList.innerHTML = "";
 });
 
 // add event listener to the form submission
