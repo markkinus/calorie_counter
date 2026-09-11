@@ -39,4 +39,7 @@ total = total + calories;
 
 // update the total calories display
 totalCalories.textContent = total;
+
+foodNameInput.value = "";
+caloriesInput.value = "";
 });
