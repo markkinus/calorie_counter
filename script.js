@@ -31,8 +31,22 @@ foodForm.addEventListener("submit", function (event) {
 const foodItem = document.createElement("li");
 //give the list item text content
 foodItem.textContent = name + " - " + calorieAmount + " calories";
+
+//create delete button
+const deleteButton = document.createElement("button");
+//give the delete button text content
+deleteButton.textContent = "Delete";
+
 // append(put) the list item to the food list
 foodList.appendChild(foodItem);
+// append the delete button to the list item
+foodItem.appendChild(deleteButton);
+
+// add event listener to the delete button
+deleteButton.addEventListener("click", function () {
+    //remove the list item from the food list
+    foodItem.remove();
+});
 
 //calculate total calories
 total = total + calories;
