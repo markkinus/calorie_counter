@@ -7,7 +7,13 @@ const totalCalories = document.getElementById("total-calories");
 const clearButton = document.getElementById("clear-button");
 
 //store the total calories in a variable
-let total=0;
+let total = 0;
+
+// store the food items in an array
+let foods = [{ name: "Apple", calories: 95 }, 
+    { name: "Banana", calories: 105 }, 
+    { name: "Orange", calories: 62 }
+];
 
 // function to update the total calories display
 function updateTotal() {
@@ -43,6 +49,10 @@ function addFood(name, calories) {
 
     // calculate total calories
     total = total + calories;
+    // add the food item to the foods array
+    foods.push({ name: name, calories: calories });
+    // store the foods array in local storage
+    localStorage.setItem("foods", JSON.stringify(foods));
     // update the total calories display
     updateTotal();
 
