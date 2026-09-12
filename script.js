@@ -44,6 +44,9 @@ foodItem.appendChild(deleteButton);
 
 // add event listener to the delete button
 deleteButton.addEventListener("click", function () {
+    //subtract the calories of the deleted item from the total
+    total = total - calories;
+    totalCalories.textContent = total;
     //remove the list item from the food list
     foodItem.remove();
 });
