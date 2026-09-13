@@ -97,15 +97,32 @@ foodForm.addEventListener("submit", function (event) {
 
     // get the values from the input fields
     const name = foodNameInput.value;
-    const calorieAmount = caloriesInput.value;
-    const calories = Number(calorieAmount);
 
-    // validate the input values
-    addFood(name, calories);
+//fetch calorie information from calorieninjas
+fetch(`https://api.calorieninjas.com/v1/nutrition?query=${name}`, {
+    headers: {
+        "X-Api-Key": "jH4vE9xFyz4ozxl9R4v0nQ==1GazISSivrbYmLil"
+    }
+})
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data);
+
+        // get the calories from the API response
+        const calories = data.items[0].calories;
+        console.log(calories);
+
+        //show the calories in the input field
+        caloriesInput.value = calories;
+
+        // add the food item to the calorie counter
+        addFood(name, calories);
+    });
 
     // clear the input fields
     foodNameInput.value = "";
-    caloriesInput.value = "";
 });
 
 // add event listener to the clear button
@@ -120,11 +137,3 @@ clearButton.addEventListener("click", function () {
     total = 0;
     updateTotal();
 });
-
-fetch("foods.json")
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data);
-    });
