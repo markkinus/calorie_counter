@@ -15,23 +15,13 @@ let foods = [{ name: "Apple", calories: 95 },
     { name: "Orange", calories: 62 }
 ];
 
-// function to update the total calories display
-function updateTotal() {
-    totalCalories.textContent = total;
+// retrieve the food items from local storage
+const storedFoods = localStorage.getItem("foods");
+if (storedFoods) {
+    foods = JSON.parse(storedFoods);
 }
 
-//function to remove a food item from the list and update the total calories
-function removeFood(foodItem, calories) {
-    //subtract the calories of the deleted item from the total
-    total = total - calories;
-    //remove the food item from the list
-    foodItem.remove();
-    // update the total calories display
-    updateTotal();
-}
-
-// function to add a food item to the list and update the total calories
-function addFood(name, calories) {
+function displayFood(name, calories) {
     // create a new HTML list item element using JS
     const foodItem = document.createElement("li");
     //give the list item text content
@@ -49,17 +39,55 @@ function addFood(name, calories) {
 
     // calculate total calories
     total = total + calories;
-    // add the food item to the foods array
-    foods.push({ name: name, calories: calories });
+
+    // add event listener to the delete button
+    deleteButton.addEventListener("click", function () {
+        removeFood(foodItem, name, calories);
+    });
+}
+//display the food items in the list
+foods.forEach(function (food) {
+    displayFood(food.name, food.calories);
+});
+
+updateTotal();
+
+// function to update the total calories display
+function updateTotal() {
+    totalCalories.textContent = total;
+}
+
+//function to remove a food item from the list and update the total calories
+function removeFood(foodItem, name, calories) {
+    //subtract the calories of the deleted item from the total
+    total = total - calories;
+    //remove the food item from the list
+    foodItem.remove();
+    
+    // remove the food item from the foods array
+    foods = foods.filter(function (food) {
+        return food.name !== name;
+    });
+
     // store the foods array in local storage
     localStorage.setItem("foods", JSON.stringify(foods));
     // update the total calories display
     updateTotal();
+}
 
-    // add event listener to the delete button
-    deleteButton.addEventListener("click", function () {
-        removeFood(foodItem, calories);
-    });
+// function to add a food item to the list and update the total calories
+function addFood(name, calories) {
+    // add the food item to the foods array
+    foods.push({ name: name, calories: calories });
+
+    // store the foods array in local storage
+    localStorage.setItem("foods", JSON.stringify(foods));
+
+    // display the food item in the list
+    displayFood(name, calories);
+
+    // update the total calories display
+    updateTotal();
 }
 
 
@@ -84,6 +112,10 @@ foodForm.addEventListener("submit", function (event) {
 clearButton.addEventListener("click", function () {
     // clear the food list
     foodList.innerHTML = "";
+    // reset the foods array
+    foods = [];
+    // remove stored foods from local storage
+    localStorage.removeItem("foods");
     // reset the total calories
     total = 0;
     updateTotal();
