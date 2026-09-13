@@ -120,3 +120,11 @@ clearButton.addEventListener("click", function () {
     total = 0;
     updateTotal();
 });
+
+fetch("foods.json")
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data);
+    });
